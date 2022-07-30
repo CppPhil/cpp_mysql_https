@@ -1,3 +1,6 @@
 https://docs.pocoproject.org/current/00200-DataUserManual.html
 
 Create, Read, Update, Delete
+
+DAO (Data Access Object)
+
