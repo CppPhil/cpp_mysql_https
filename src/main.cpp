@@ -14,8 +14,9 @@ struct Customer {
 int main()
 {
   Poco::Data::MySQL::Connector::registerConnector();
-  const std::string connectionString{"host=127.0.0.1;user=root;password=letmein;compress=true;auto-reconnect=true"};
-  Poco::Data::Session test{Poco::Data::SessionFactory::instance().create(Poco::Data::MySQL::Connector::KEY, connectionString)};
-
-  
+  const std::string connectionString{
+    "host=127.0.0.1;user=root;password=letmein;compress=true;auto-reconnect="
+    "true"};
+  Poco::Data::Session test{Poco::Data::SessionFactory::instance().create(
+    Poco::Data::MySQL::Connector::KEY, connectionString)};
 }
