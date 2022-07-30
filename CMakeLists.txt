@@ -6,7 +6,16 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
+set(MYSQL_DIR "C:\\Program Files\\MySQL\\MySQL Server 8.0" CACHE STRING "set MySQL root dir" FORCE)
+set(MYSQL_INCLUDE_DIR "${MYSQL_DIR}\\include" CACHE STRING "set MySQL include dir" FORCE)
+set(MYSQL_LIBRARY "${MYSQL_DIR}\\lib\\libmysql.lib" CACHE STRING "set MySQL lib" FORCE)
+file(GLOB mysql_headers "${MYSQL_INCLUDE_DIR}/*.h")
+foreach(header ${mysql_headers})
+  file(COPY ${header} DESTINATION "${MYSQL_INCLUDE_DIR}/mysql")
+endforeach()
+
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL" CACHE STRING "set CRT to MD" FORCE)
+
 set(ENABLE_ENCODINGS OFF CACHE BOOL "Enable Encodings" FORCE)
 set(ENABLE_XML OFF CACHE BOOL "Enable XML" FORCE)
 set(ENABLE_JSON OFF CACHE BOOL "Enable JSON" FORCE)
@@ -18,10 +27,9 @@ set(ENABLE_PAGECOMPILER OFF CACHE BOOL "Enable PageCompiler" FORCE)
 set(ENABLE_PAGECOMPILER_FILE2PAGE OFF CACHE BOOL "Enable File2Page" FORCE)
 set(ENABLE_ACTIVERECORD OFF CACHE BOOL "Enable ActiveRecord" FORCE)
 set(ENABLE_ACTIVERECORD_COMPILER OFF CACHE BOOL "Enable ActiveRecord Compiler" FORCE)
+set(ENABLE_DATA_MYSQL ON CACHE BOOL "Enable MySQL" FORCE)
 
 add_subdirectory(external/poco)
 
 add_executable(application src/main.cpp)
-target_include_directories(application ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(application PRIVATE Poco::Data Poco::DataMySQL)
-
