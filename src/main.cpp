@@ -33,17 +33,18 @@ int main()
     return EXIT_FAILURE;
   }
 
+#if 0
+  // insert into database
   try {
     Customer              customer{1, "Peter Smith"};
     Poco::Data::Statement insertStatement{session};
-    using namespace Poco::Data::Keywords;
     insertStatement << "INSERT INTO customer VALUES(?, ?)", use(customer.id),
       use(customer.name);
     const std::size_t rowsAffected{insertStatement.execute()};
     std::cout << "rowsAffected: " << rowsAffected << '\n';
 
     if (!insertStatement.done()) {
-      std::cerr << "stament isn't done.\n";
+      std::cerr << "statement isn't done.\n";
       return EXIT_FAILURE;
     }
   }
@@ -51,6 +52,73 @@ int main()
     std::cerr << "Caught exception: " << exception.displayText() << '\n';
     return EXIT_FAILURE;
   }
+#endif
+
+#if 0
+ // select
+  try {
+    Customer              customer{1, ""};
+    Poco::Data::Statement selectStatement{session};
+    using namespace Poco::Data::Keywords;
+    selectStatement << "SELECT name FROM customer WHERE id=?",
+      into(customer.name), use(customer.id);
+    // range(0, 1); // iterate over result set one row at a time
+    const std::size_t rowsAffected{selectStatement.execute()};
+    std::cout << "rowsAffected: " << rowsAffected << '\n';
+
+    if (!selectStatement.done()) {
+      std::cerr << "statement isn't done.\n";
+      return EXIT_FAILURE;
+    }
+  }
+  catch (const Poco::Exception& exception) {
+    std::cerr << "Caught exception: " << exception.displayText() << '\n';
+    return EXIT_FAILURE;
+  }
+#endif
+
+#if 0
+  // update
+  try {
+    Customer              customer{1, "John Smith"};
+    Poco::Data::Statement updateStatement{session};
+    using namespace Poco::Data::Keywords;
+    updateStatement << "UPDATE customer SET name=? WHERE id=?",
+      use(customer.name), use(customer.id);
+    const std::size_t rowsAffected{updateStatement.execute()};
+    std::cout << "rowsAffected: " << rowsAffected << '\n';
+
+    if (!updateStatement.done()) {
+      std::cerr << "statement isn't done.\n";
+      return EXIT_FAILURE;
+    }
+  }
+  catch (const Poco::Exception& exception) {
+    std::cerr << "Caught exception: " << exception.displayText() << '\n';
+    return EXIT_FAILURE;
+  }
+#endif
+
+#if 0
+  // Delete
+  try {
+    Poco::Data::Statement deleteStatement{session};
+    using namespace Poco::Data::Keywords;
+    int id{1};
+    deleteStatement << "DELETE FROM customer where id=?", use(id);
+    const std::size_t rowsAffected{deleteStatement.execute()};
+    std::cout << "rowsAffected: " << rowsAffected << '\n';
+
+    if (!deleteStatement.done()) {
+      std::cerr << "statement isn't done.\n";
+      return EXIT_FAILURE;
+    }
+  }
+  catch (const Poco::Exception& exception) {
+    std::cerr << "Caught exception: " << exception.displayText() << '\n';
+    return EXIT_FAILURE;
+  }
+#endif 
 
   session.commit();
   session.close();
