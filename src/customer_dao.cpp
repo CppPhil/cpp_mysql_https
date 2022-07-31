@@ -58,6 +58,30 @@ bool CustomerDAO::updateCustomer(Customer& customer, std::string newName)
   }
 }
 
+bool CustomerDAO::deleteCustomer(Customer& customer)
+{
+  try {
+    Poco::Data::Statement deleteStatement{m_session};
+    deleteStatement << "DELETE FROM customer where id=?", use(customer.m_id);
+    const std::size_t rowsAffected{deleteStatement.execute()};
+
+    if (rowsAffected == 0) {
+      return false;
+    }
+
+    if (!deleteStatement.done()) {
+      return false;
+    }
+
+    customer.m_id = 0;
+    customer.m_name.clear();
+    return true;
+  }
+  catch (const Poco::Exception& exception) {
+    return false;
+  }
+}
+
 std::uint64_t CustomerDAO::nextId()
 {
   static std::atomic<std::uint64_t> id{1};

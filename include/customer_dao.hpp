@@ -14,6 +14,8 @@ public:
 
   bool updateCustomer(Customer& customer, std::string newName);
 
+  bool deleteCustomer(Customer& customer);
+
 private:
   static std::uint64_t nextId();
 
