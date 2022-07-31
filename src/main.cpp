@@ -33,15 +33,22 @@ int main()
     return EXIT_FAILURE;
   }
 
-  Customer              customer{1, "Peter Smith"};
-  Poco::Data::Statement insertStatement{session};
-  using namespace Poco::Data::Keywords;
-  insertStatement << "INSERT INTO customer VALUES(?)", use(customer.name);
-  const std::size_t rowsAffected{insertStatement.execute()};
-  std::cout << "rowsAffected: " << rowsAffected << '\n';
+  try {
+    Customer              customer{1, "Peter Smith"};
+    Poco::Data::Statement insertStatement{session};
+    using namespace Poco::Data::Keywords;
+    insertStatement << "INSERT INTO customer VALUES(?, ?)", use(customer.id),
+      use(customer.name);
+    const std::size_t rowsAffected{insertStatement.execute()};
+    std::cout << "rowsAffected: " << rowsAffected << '\n';
 
-  if (!insertStatement.done()) {
-    std::cerr << "stament isn't done.\n";
+    if (!insertStatement.done()) {
+      std::cerr << "stament isn't done.\n";
+      return EXIT_FAILURE;
+    }
+  }
+  catch (const Poco::Exception& exception) {
+    std::cerr << "Caught exception: " << exception.displayText() << '\n';
     return EXIT_FAILURE;
   }
 
