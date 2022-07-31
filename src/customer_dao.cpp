@@ -34,6 +34,30 @@ std::optional<Customer> CustomerDAO::createCustomer(std::string name)
   }
 }
 
+std::optional<Customer> CustomerDAO::readCustomer(std::uint64_t id)
+{
+  try {
+    Poco::Data::Statement selectStatement{m_session};
+    std::string           name{};
+    selectStatement << "SELECT name FROM customer WHERE id=?", into(name),
+      use(id);
+    const std::size_t rowsAffected{selectStatement.execute()};
+
+    if (rowsAffected == 0) {
+      return std::nullopt;
+    }
+
+    if (!selectStatement.done()) {
+      return std::nullopt;
+    }
+
+    return Customer{id, std::move(name)};
+  }
+  catch (const Poco::Exception& exception) {
+    return std::nullopt;
+  }
+}
+
 bool CustomerDAO::updateCustomer(Customer& customer, std::string newName)
 {
   try {

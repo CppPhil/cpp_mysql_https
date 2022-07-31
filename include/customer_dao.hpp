@@ -12,6 +12,8 @@ public:
 
   std::optional<Customer> createCustomer(std::string name);
 
+  std::optional<Customer> readCustomer(std::uint64_t id);
+
   bool updateCustomer(Customer& customer, std::string newName);
 
   bool deleteCustomer(Customer& customer);
