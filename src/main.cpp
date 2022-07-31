@@ -5,6 +5,7 @@
 #include <Poco/Data/SessionFactory.h>
 
 #include "customer_dao.hpp"
+#include "scope_guard.hpp"
 
 int main()
 {
@@ -25,6 +26,11 @@ int main()
     std::cerr << "session is bad!\n";
     return EXIT_FAILURE;
   }
+
+  auto scopeGuard{db::makeScopeGuard([&session] {
+    session.commit();
+    session.close();
+  })};
 
   db::CustomerDAO             customerDAO{session};
   std::optional<db::Customer> optionalCustomer{
@@ -60,8 +66,5 @@ int main()
   }
 
   std::cout << "Managed to delete customer.\n";
-
-  session.commit();
-  session.close();
   return EXIT_SUCCESS;
 }

@@ -35,6 +35,8 @@ set(ENABLE_JSON OFF CACHE BOOL "Enable JSON" FORCE)
 set(ENABLE_MONGODB OFF CACHE BOOL "Enable MongoDB" FORCE)
 set(ENABLE_DATA_SQLITE OFF CACHE BOOL "Enable Data SQlite" FORCE)
 set(ENABLE_REDIS OFF CACHE BOOL "Enable Redis" FORCE)
+set(ENABLE_PROMETHEUS OFF CACHE BOOL "Enable Prometheus" FORCE)
+set(ENABLE_UTIL OFF CACHE BOOL "Enable Util" FORCE)
 set(ENABLE_ZIP OFF CACHE BOOL "Enable Zip" FORCE)
 set(ENABLE_PAGECOMPILER OFF CACHE BOOL "Enable PageCompiler" FORCE)
 set(ENABLE_PAGECOMPILER_FILE2PAGE OFF CACHE BOOL "Enable File2Page" FORCE)
@@ -47,6 +49,7 @@ add_subdirectory(external/poco)
 add_executable(application
   include/customer_dao.hpp
   include/customer.hpp
+  include/scope_guard.hpp
   src/customer_dao.cpp
   src/customer.cpp
   src/main.cpp)
