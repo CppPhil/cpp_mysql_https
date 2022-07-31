@@ -12,6 +12,8 @@ public:
 
   std::optional<Customer> createCustomer(std::string name);
 
+  bool updateCustomer(Customer& customer, std::string newName);
+
 private:
   static std::uint64_t nextId();
 
