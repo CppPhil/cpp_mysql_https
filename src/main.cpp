@@ -1,3 +1,4 @@
+// TODO: Remove unused includes
 #include <cstdint>
 #include <cstdlib>
 
@@ -118,7 +119,7 @@ int main()
     std::cerr << "Caught exception: " << exception.displayText() << '\n';
     return EXIT_FAILURE;
   }
-#endif 
+#endif
 
   session.commit();
   session.close();
