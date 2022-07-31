@@ -29,7 +29,7 @@ std::optional<Customer> CustomerDAO::createCustomer(std::string name)
 
     return customer;
   }
-  catch (const Poco::Exception& exception) {
+  catch ([[maybe_unused]] const Poco::Exception& exception) {
     return std::nullopt;
   }
 }
@@ -53,7 +53,7 @@ std::optional<Customer> CustomerDAO::readCustomer(std::uint64_t id)
 
     return Customer{id, std::move(name)};
   }
-  catch (const Poco::Exception& exception) {
+  catch ([[maybe_unused]] const Poco::Exception& exception) {
     return std::nullopt;
   }
 }
@@ -62,8 +62,8 @@ bool CustomerDAO::updateCustomer(Customer& customer, std::string newName)
 {
   try {
     Poco::Data::Statement updateStatement{m_session};
-    updateStatement << "UPDATE customer SET name=? WHERE id=?",
-      use(customer.m_id), use(newName);
+    updateStatement << "UPDATE customer SET name=? WHERE id=?", use(newName),
+      use(customer.m_id);
     const std::size_t rowsAffected{updateStatement.execute()};
 
     if (rowsAffected == 0) {
@@ -77,7 +77,7 @@ bool CustomerDAO::updateCustomer(Customer& customer, std::string newName)
     customer.m_name = std::move(newName);
     return true;
   }
-  catch (const Poco::Exception& exception) {
+  catch ([[maybe_unused]] const Poco::Exception& exception) {
     return false;
   }
 }
@@ -101,7 +101,7 @@ bool CustomerDAO::deleteCustomer(Customer& customer)
     customer.m_name.clear();
     return true;
   }
-  catch (const Poco::Exception& exception) {
+  catch ([[maybe_unused]] const Poco::Exception& exception) {
     return false;
   }
 }

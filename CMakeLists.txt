@@ -44,5 +44,11 @@ set(ENABLE_DATA_MYSQL ON CACHE BOOL "Enable MySQL" FORCE)
 
 add_subdirectory(external/poco)
 
-add_executable(application src/main.cpp)
+add_executable(application
+  include/customer_dao.hpp
+  include/customer.hpp
+  src/customer_dao.cpp
+  src/customer.cpp
+  src/main.cpp)
+target_include_directories(application PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(application PRIVATE Poco::Data Poco::DataMySQL)
